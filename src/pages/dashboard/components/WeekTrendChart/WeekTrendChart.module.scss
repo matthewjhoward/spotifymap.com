@@ -1,0 +1,15 @@
+@import '../../../../styles/app';
+
+
+.graphChart {
+    position: relative;
+    margin: (-$widget-padding-vertical) (-$widget-padding-horizontal) 0;
+}
+
+.graph {
+    position: relative;
+    height: 400px;
+    svg {
+        height: 400px;
+    }
+}

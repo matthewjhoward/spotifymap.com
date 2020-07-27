@@ -1,0 +1,230 @@
+@import '../../styles/app';
+@import url(http://fonts.googleapis.com/css?family=Cookie);
+
+.root {
+  :global {
+    .post-comments footer {
+      margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
+      padding: $widget-padding-vertical $widget-padding-horizontal;
+    }
+
+    .stat-item .name {
+      margin-top: 10px;
+    }
+
+    .list-group-item:hover {
+      background-color: $bg-addition;
+    }
+
+    .detail {
+      .x_label {
+        background: $widget-bg-color !important;
+      }
+    }
+  }
+
+
+}
+
+.wrapWidget{
+  padding-bottom: 0 !important;
+}
+
+.table {
+  :global(.table.table-sm) {
+    td {
+      font-size: 1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+.searchBtn {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.pop{
+  // background: $main-gradient;
+}
+
+.datePicker{
+
+  float: right;
+
+  :global {
+    // .react-datepicker{
+    //   color: #FFF !important;
+    //   background-color: #000 !important;
+    //   background: $main-gradient !important;
+    // }
+  }
+  
+ 
+}
+
+
+.country{
+  font-size: 22px;
+}
+
+.chartBadge{
+  font-size: 20px;
+  color: $teal;
+  background-color: $text-transparent;
+  border: solid 1px $teal;
+  padding: 0.5em;
+  // background-color: $info;
+}
+
+.chartBadge2{
+  font-size: 20px;
+  color: black;
+  background-color: $info;
+}
+
+.chartBadge3 {
+  background-color: $text-transparent;
+  color: $text-color;
+  border: solid 1px $teal;
+  padding: 0.5em;
+}
+
+.trackHighlights {
+  // height: 600px;
+}
+
+.highlightFooter{
+  align-content: top;
+  color: $text-muted;
+  
+  padding: 0.2em;
+  // height: 30px;
+  font-size: $font-size-sm;
+}
+
+.highlightTopRow{
+  border-bottom: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .country{
+    display: block;
+  }
+}
+
+
+.bmcButton img {
+  height: 34px !important;
+  width: 35px !important;
+  margin-bottom: 1px !important;
+  box-shadow: none !important;
+  border: none !important;
+  vertical-align: middle !important;
+}
+
+.bmcButton {
+  padding: 7px 15px 7px 10px !important;
+  line-height: 35px !important;
+  height: 51px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
+  border-radius: 5px !important;
+  border: 1px solid transparent !important;
+  padding: 7px 15px 7px 10px !important;
+  font-size: 28px !important;
+  letter-spacing: 0.6px !important;
+  // box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+  // -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+  margin: 0 auto !important;
+  font-family: 'Cookie', cursive !important;
+  -webkit-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+
+  span {
+    margin-left:5px;
+    font-size:28px !important;
+  }
+}
+
+.bmcButton:hover,
+.bmcButton:active,
+.bmcButton:focus {
+  // -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+  text-decoration: none !important;
+  // box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+  opacity: 0.85 !important;
+  color: #000000 !important;
+}
+
+.ghButton {
+  background-color: lighten($text-transparent, 5%);
+  
+  color: $text-color;
+  // padding: 0.6em;
+  // padding-top: 0.3em;
+  // padding-bottom: 0.3em;
+  // font-size: $font-size-base;
+  // line-height: $font-size-lg;
+  border: 1px solid $text-muted;
+
+  &:hover, &:focus, &:active{
+    border: 1px solid $text-muted !important;
+    background-color: darken($text-transparent,50%)
+  }
+
+  i.fa {
+    font-size: 2rem;
+    vertical-align: middle;
+    line-height: inherit;
+  }
+
+  i {
+    font-size: 1.75rem;
+    vertical-align: middle;
+    // line-height: inherit;
+  }
+}
+
+
+:global {
+  .tooltipCard {
+    width: 200px;
+    max-width: 200px;
+    padding: 0;
+    .card-text{
+      font-size: $font-size-sm;
+      // font-size: 0.5em;
+    }
+
+    img {
+      padding: 0;
+      // border-top-right-radius: 5px;
+      border-radius: 5px;
+    }
+  }
+
+
+
+  
+}
+
+.text-responsive {
+  font-size: calc(100% + 1vw + 1vh);
+}
+
+
+
+

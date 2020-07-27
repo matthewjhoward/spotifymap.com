@@ -1,0 +1,27 @@
+@import '../../../../styles/app';
+
+.map {
+  position: relative;
+  // height: 600px;
+  // svg {
+  //   height: 600px;
+  // }
+
+  min-height: 600px;
+  // height: 100%;
+  svg {
+    min-height: 600px;
+  }
+}
+.stats {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  margin: 5% 10%;
+}
+
+.mapChart {
+  position: relative;
+  margin: (-$widget-padding-vertical) (-$widget-padding-horizontal) 0;
+}

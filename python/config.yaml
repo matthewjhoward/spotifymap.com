@@ -1,0 +1,23 @@
+CHARTS_URL: https://spotifycharts.com
+TRACK_EMBED_URL: https://open.spotify.com/embed/track/
+DATA_DIR: data
+DF_DIR: data/dataframes
+EXPORTS_PATH: data/exports
+BROKEN_LINKS_PATH: data/broken_links.json
+COUNTRY_PATH: data/countries.json
+TRACKS_PATH: data/exports/tracks.json
+CHART_DATA_OUTPUT_PATH: data/exports/charts-data.js
+TRACK_POSITION_INFO_PATH: data/exports/track-position.js
+COUNTRY_TRACK_INFO_PATH: data/exports/country-track.js
+DATA_START_DATE: 01-01-2019
+COPY_EXPORT_PATH: ../src/data/
+CHARTS:
+  - regional
+  - viral
+IGNORE_REGIONS:
+  - ad
+  - cy
+  - lu
+  - mc
+  - mt
+  - bg
