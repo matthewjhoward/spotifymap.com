@@ -25,9 +25,12 @@ yarn-error.log*
 
 
 /python/data
+/python/pyenv
 __pycache__/
 .ipynb_checkpoints
 /python/*.ipynb
 
 
 /src/data
+
+.vscode
