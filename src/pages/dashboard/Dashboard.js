@@ -171,7 +171,6 @@ class Dashboard extends React.Component {
 
       let trackPositionData = track_position[this.state.date][track_id];
       let trackDataValid = trackPositionData && trackPositionData['global_position'];
-      console.log(trackPositionData)
       let top_position = trackDataValid ? trackPositionData['global_position']['top'] : 201;
       let vir_position = trackDataValid ? trackPositionData['global_position']['viral'] : 201;
       top_position = top_position === 201 ? "\u2014" : "# " + top_position;

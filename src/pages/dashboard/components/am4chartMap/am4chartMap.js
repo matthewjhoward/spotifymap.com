@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import spotify_data from '../../../../data/charts-data'
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import s from './am4chartMap.module.scss';
@@ -61,7 +61,7 @@ class Am4chartMap extends Component {
     this.currentDate = this.props.date;
     this.props.setCountryData(spotify_data[this.currentID][this.currentDate])
 
-    am4core.useTheme(am4themes_animated);
+    // am4core.useTheme(am4themes_animated);
     let container = am4core.create("map", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
@@ -413,7 +413,8 @@ class Am4chartMap extends Component {
       caller.currentCountry = 'Global'
       caller.currentID = 'GLOBAL';
       // shadowPolygonSeries.show(500);
-      map.goHome();
+      // map.goHome();
+      map.goHome(0);
     }
     function clearSelected(){
       polygonSeries.mapPolygons.each(function (polygon) {
@@ -440,7 +441,15 @@ class Am4chartMap extends Component {
         mapPolygon.isActive=true;
         
         // shadowPolygonSeries.hide(500);
-        map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
+        // map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon)
+        // let z = getZoomLevel(mapPolygon);
+        // let p = am4maps.pointToGeo([mapPolygon.latitude, mapPolygon.longitude])
+        // let p = new am4core.IGeoPoint()
+        // map.zoomToMapObject(mapPolygon, z,true ,0);
+        // console.log(mapPolygon);
+        // map.zoomToGeoPoint(p,z, true, 0)
+        
+        // map.polygon
 
         
     }
@@ -449,7 +458,7 @@ class Am4chartMap extends Component {
     function getZoomLevel(mapPolygon) {
       var w = mapPolygon.polygon.bbox.width;
       var h = mapPolygon.polygon.bbox.width;
-      var scale = 2;
+      var scale = 3;
       // change 2 to smaller walue for a more close zoom
       return Math.min(map.seriesWidth / (w * scale), map.seriesHeight / (h * scale))
     }
