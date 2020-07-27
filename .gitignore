@@ -16,6 +16,7 @@
 .env.test.local
 .env.production.local
 
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -26,7 +27,7 @@ yarn-error.log*
 /python/data
 __pycache__/
 .ipynb_checkpoints
-.ipynb
+/python/*.ipynb
 
 
 /src/data
