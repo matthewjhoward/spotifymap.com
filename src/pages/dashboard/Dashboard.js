@@ -18,13 +18,11 @@ import spotify_data from '../../data/charts-data';
 import track_position from '../../data/track-position'
 import country_track from '../../data/country-track';
 
-import DatePicker from "react-datepicker";
+
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-// import LuxonUtils from '@date-io/luxon';
-// import { MuiPickersUtilsProvider, DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
 
 import Widget from '../../components/Widget';
 
@@ -36,7 +34,6 @@ import WeekTrendChart from './components/WeekTrendChart/WeekTrendChart';
 import s from './Dashboard.module.scss';
 
 import sx from './DashboardMetro.module.scss';
-import "react-datepicker/dist/react-datepicker.css";
 
 import LayoutContext from '../../components/Layout/LayoutContext';
 
@@ -46,6 +43,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
+    // let countryIDS = Object.keys(spotify_data);
 
     let keys = Object.keys(spotify_data['GLOBAL'])
     let lastDate = keys[keys.length-1]
@@ -56,7 +54,7 @@ class Dashboard extends React.Component {
       popOpen: true,
       popovers: [false, false, false, false, false, false],
       graph: null,
-      country: 'Global 🌎',
+      country: 'Global',
       countryID: 'GLOBAL',
       track_id: global_latest['track_id'],
       v_track_id: global_latest['v_track_id'],
@@ -66,9 +64,12 @@ class Dashboard extends React.Component {
     };
 
     
+
+    
+
+    
     this.tracks = require('../../data/tracks.json');
-    // console.log(this.tracks);
-    this.checkTable = this.checkTable.bind(this);
+
     this.setCountryData = this.setCountryData.bind(this);
     this.setDate = this.setDate.bind(this);
     this.dateChange = this.dateChange.bind(this);
@@ -78,6 +79,7 @@ class Dashboard extends React.Component {
 
   componentDidMount(){
     this._isMounted = true;
+    // this.context.setData({country: this.state.countryID, date: this.state.date});
   }
 
   componentWillUnmount(){
@@ -89,7 +91,12 @@ class Dashboard extends React.Component {
   setCountryData(countryData) {
 
     this.setState(countryData);
-    this.context.setData({ country: this.state.country, date: this.state.date });
+    // console.log(countryData);
+    this.context.setData({ 
+      countryID: countryData.countryID, 
+      country: countryData.country,
+      date: this.context.data.date
+    });
   }
 
   numberWithCommas(x) {
@@ -101,32 +108,7 @@ class Dashboard extends React.Component {
 
 
 
-  checkTable(id) {
-    let arr = [];
-    if (id === 0) {
-      const val = !this.state.checkedArr[0];
-      for (let i = 0; i < this.state.checkedArr.length; i += 1) {
-        arr[i] = val;
-      }
-    } else {
-      arr = this.state.checkedArr;
-      arr[id] = !arr[id];
-    }
-    if (arr[0]) {
-      let count = 1;
-      for (let i = 1; i < arr.length; i += 1) {
-        if (arr[i]) {
-          count += 1;
-        }
-      }
-      if (count !== arr.length) {
-        arr[0] = !arr[0];
-      }
-    }
-    this.setState({
-      checkedArr: arr,
-    });
-  }
+ 
 
   setDate(d) {
     this.setState({ date: d })
@@ -196,7 +178,7 @@ class Dashboard extends React.Component {
 
       }else{
         top_days = country_track[this.state.countryID]['viral'][track_id]
-        for(var day in top_days){
+        for(day in top_days){
           if (day > this.state.date){
             break;
           }else{
@@ -361,10 +343,13 @@ class Dashboard extends React.Component {
 
   }
   render() {
+    // console.log("Context", this.context)
+    
     let highlights = this.trackHighlights();
     let mostWidget = this.getTrackWidget(false);
     let viralWidget = this.getTrackWidget(true);
 
+    
 
     let settings = {
       dots: true,
@@ -384,38 +369,15 @@ class Dashboard extends React.Component {
 
     return (
 
-      // <LayoutContext.Consumer>
-
-      // </LayoutContext.Consumer>
       <div className={s.root}>
         <Row>
           <Col lg={8} md={8}>
             <h1 className='d-inline-block'>Dashboard  &nbsp;</h1>
 
-            <div className={s.datePicker}>
-              <DatePicker
-                popperPlacement="auto-left"
-                // todayButton="Latest"
-                
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                minDate={new Date("2018-07-04")}
-                maxDate={this.dayPlusOne(this.state.latest)}
-                // dateFormat="yyyy-MM-dd"
-                dateFormat="MM-dd-yyyy"
-
-                selected={this.dayPlusOne(this.state.date)}
-                onChange={this.dateChange}
-                customInput={<Button className='btn text-white' color='primary' id="calPop">
-                  <i className="fa fa-calendar" />&nbsp; {this.state.date}
-                </Button>}
-              />
-
-            </div>
+          
 
             <h1 className='d-inline-block'>
-              <span className={`${s.country} fw-bold`}>{this.state.country}&nbsp;</span>
+              <span className={`${s.country} fw-bold`}>{this.context.data.country}&nbsp;</span>
             </h1>
 
 
@@ -427,23 +389,12 @@ class Dashboard extends React.Component {
 
         </Row>
 
-
-
-
-        {/*  */}
-
-
-
-
-
-
         <Row>
           <Col xl={8} lg={7} xs={12}>
             <Widget className="bg-transparent">
-              <Map setCountryData={this.setCountryData} date={this.state.date} />
+              <Map setCountryData={this.setCountryData} date={this.context.data.date} countryID={this.context.data.countryID}/>
             </Widget>
           </Col>
-          {/* <Col lg={1} /> */}
 
 
           <Col xl={4} lg={5} xs={12}>
@@ -519,7 +470,7 @@ class Dashboard extends React.Component {
             
           
         </Popover>
-              <StreamChart countryID={this.state.countryID} />
+              <StreamChart countryID={this.context.data.countryID} />
             </Widget>
           </Col>
           <Col xl={4} lg={5} xs={12}>
@@ -545,7 +496,7 @@ class Dashboard extends React.Component {
             
           
         </Popover>
-              <WeekTrendChart countryID={this.state.countryID} date={this.state.date} setDate={this.dateChange} />
+              <WeekTrendChart countryID={this.state.countryID} date={this.context.data.date} setDate={this.dateChange} />
             </Widget>
 
           </Col>
@@ -571,8 +522,6 @@ class Dashboard extends React.Component {
 
               <p>Spotify Map is an open-source, interactive dashboard powered by data from <a target="_blank" rel="noopener noreferrer" href="https://spotifycharts.com">Spotify Charts</a>. 
               </p>
-
-              {/* <Button className={`${s.countryBadge} fw-semi-bold mb-2`}>View on <i class="fa fa-github" aria-hidden="true"></i> GitHub</Button> */}
               <p className="text-xl-left text-center">
               <a target="_blank" rel="noopener noreferrer" href="https://github.com/matthewjhoward/spotifymap.com">
               <Button className={`btn btn-inverse ${s.ghButton} fw-semi-bold`}>

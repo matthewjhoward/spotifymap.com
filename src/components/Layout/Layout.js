@@ -14,7 +14,7 @@ import Sidebar from '../Sidebar';
 import { openSidebar, closeSidebar } from '../../actions/navigation';
 import s from './Layout.module.scss';
 import LayoutContext from "./LayoutContext";
-
+import spotify_data from '../../data/charts-data';
 import avatar from '../../images/avatar.png';
 
 class Layout extends React.Component {
@@ -35,10 +35,14 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
 
+    let dates = Object.keys(spotify_data['GLOBAL'])
+    let lastDate = dates[dates.length-1];
+
     this.state = {
       data: {
-        country: "G",
-        date: "D"
+        country: "",
+        date: lastDate,
+        countryID: "GLOBAL"
       },
       setData: this.setData
     }

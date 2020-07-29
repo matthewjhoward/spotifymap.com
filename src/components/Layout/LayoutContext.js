@@ -2,10 +2,7 @@ import React from 'react';
 
 
 const LayoutContext = React.createContext({
-    data: {
-        country: "G",
-        date: "D"
-    },
+    data: {},
     setData: () => {}
 });
 export default LayoutContext;

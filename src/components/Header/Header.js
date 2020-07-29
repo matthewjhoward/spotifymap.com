@@ -6,10 +6,19 @@ import {
   Navbar,
 
   NavbarBrand,
-
+  NavItem,
+  Button,
   Badge,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 
 } from 'reactstrap';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {getFlag} from '../../helpers';
 
 
 import { openSidebar, closeSidebar, changeSidebarPosition, changeSidebarVisibility } from '../../actions/navigation';
@@ -19,6 +28,7 @@ import { openSidebar, closeSidebar, changeSidebarPosition, changeSidebarVisibili
 
 import s from './Header.module.scss';
 import LayoutContext from '../Layout/LayoutContext';
+import spotify_data from '../../data/charts-data';
 
 class Header extends React.Component {
   static contextType = LayoutContext;
@@ -31,24 +41,34 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
+    
+
+    this.countries = Object.keys(spotify_data);
+
+
+    let dates = Object.keys(spotify_data['GLOBAL'])
+    this.firstDate = dates[0];
+    this.lastDate = dates[dates.length-1];
+
     this.onDismiss = this.onDismiss.bind(this);
-    this.toggleMessagesDropdown = this.toggleMessagesDropdown.bind(this);
-    this.toggleSupportDropdown = this.toggleSupportDropdown.bind(this);
-    this.toggleSettingsDropdown = this.toggleSettingsDropdown.bind(this);
-    this.toggleAccountDropdown = this.toggleAccountDropdown.bind(this);
-    this.toggleSidebar = this.toggleSidebar.bind(this);
-    this.toggleSearchOpen = this.toggleSearchOpen.bind(this);
+    this.countryList = require("country-list");
+    this.countryList.overwrite([{code: 'GB', name: 'United Kingdom'}])
+
+    this.toggleCountryDropdown = this.toggleCountryDropdown.bind(this);
+    this.toggleDateDropdown = this.toggleDateDropdown.bind(this);
+    this.dateChange = this.dateChange.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.dayPlusOne = this.dayPlusOne.bind(this);
+    this.nameFromID = this.nameFromID.bind(this);
+
 
     this.state = {
       visible: true,
-      messagesOpen: false,
-      supportOpen: false,
-      settingsOpen: false,
-      searchFocused: false,
-      searchOpen: false,
-      notificationsOpen: false,
+
       headerClass: "",
-      labelClass: ""
+      labelClass: "",
+      countryOpen: false,
+      dateOpen: false
     };
   }
 
@@ -56,46 +76,50 @@ class Header extends React.Component {
     window.addEventListener("scroll", this.handleScroll);
   }
 
-  toggleNotifications = () => {
-    this.setState({
-      notificationsOpen: !this.state.notificationsOpen,
-    });
+  toggleCountryDropdown() {
+    this.setState({countryOpen: !this.state.countryOpen});
   }
+
+  handleCountryChange(countryID) {
+    this.context.setData({country: this.context.data.country, date: this.context.data.date, countryID: countryID});
+  }
+  
+  toggleDateDropdown() {
+
+  }
+
+  nameFromID(id){
+    let r;
+
+    if(id === 'GLOBAL'){
+      r = 'Global';
+    }else{
+      r = this.countryList.getName(id)
+    }
+    return r;
+  }
+
+  dateChange = d => {
+
+
+    var datestring = d.getFullYear() + "-" + (("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2));
+    this.context.setData({country: this.context.data.country, countryID: this.context.data.countryID, date: datestring});
+  }
+
+ 
 
   onDismiss() {
     this.setState({ visible: false });
   }
 
-
-  toggleMessagesDropdown() {
-    this.setState({
-      messagesOpen: !this.state.messagesOpen,
-    });
+  dayPlusOne(d) {
+    let date = new Date(d);
+    date.setDate(date.getDate() + 1);
+    return date;
   }
 
-  toggleSupportDropdown() {
-    this.setState({
-      supportOpen: !this.state.supportOpen,
-    });
-  }
 
-  toggleSettingsDropdown() {
-    this.setState({
-      settingsOpen: !this.state.settingsOpen,
-    });
-  }
-
-  toggleAccountDropdown() {
-    this.setState({
-      accountOpen: !this.state.accountOpen,
-    });
-  }
-
-  toggleSearchOpen() {
-    this.setState({
-      searchOpen: !this.state.searchOpen,
-    });
-  }
+  
 
   toggleSidebar() {
     this.props.isSidebarOpened 
@@ -140,25 +164,57 @@ class Header extends React.Component {
       // ${this.state.headerClass}
       <Navbar className={`${s.root} ${this.state.headerClass}`} sticky="top">
         <NavbarBrand className={`${s.logo} mr-0`} href="/">Spotify <span className="fw-bold">Map</span> 
-        {/* <span id="dashLabel" className={`fw-thin ${s.titleLabel} ${this.state.labelClass}`}> <i className="fa fa-caret-right ml-2 mr-2"></i> Dashboard</span>  */}
+
         
         </NavbarBrand>
+        
+        <div className={s.dropdownButtons}>
+    
+              <ButtonDropdown isOpen={this.state.countryOpen} toggle={this.toggleCountryDropdown}>
 
-        {/* <span className={`${s.divider} text-white`} >&nbsp;</span>   
-                    <span className={s.tagline}>Explore the world's most streamed and viral songs!</span>  */}
+      <DropdownToggle caret size="sm" color="dark">
+        {this.context.data.country}
+      </DropdownToggle>
+      <DropdownMenu size="sm" className={s.dropDownMenu}>
+        <DropdownItem header disabled>Select Region</DropdownItem>
+        {
+          this.countries.map(country =>
+            <DropdownItem key={country} onClick={() => this.handleCountryChange(country)}>{getFlag(country) + " " + this.nameFromID(country)}</DropdownItem>
+            
+            )}
+      </DropdownMenu>
+      </ButtonDropdown>
+
+
+      <DatePicker
+            popperPlacement="auto-left"
+            // todayButton="Latest"
+            
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            minDate={this.dayPlusOne(this.firstDate)}
+            maxDate={this.dayPlusOne(this.lastDate)}
+            // dateFormat="yyyy-MM-dd"
+            dateFormat="MM-dd-yyyy"
+
+            selected={this.dayPlusOne(new Date(this.context.data.date))}
+            onChange={this.dateChange}
+            customInput={<Button size="sm" className='btn text-white' color='dark' id="calPop">
+              <i className="fa fa-calendar" />&nbsp; {this.context.data.date}
+            </Button>}
+          />
+
+        </div>
         
 
-        {/* <UncontrolledAlert className={`${s.alert} mr-3 d-lg-down-none`}>
-          <i className="fa fa-info-circle mr-1" /> Thanks for stopping by! <button className="btn-link" href="#">Donate</button> to support
-        </UncontrolledAlert> */}
-        
-        <span className={`${s.countryDate} d-inline-block`}>
-        <Badge className={`${s.countryBadge} fw-semi-bold`}>{this.context.data.country}</Badge> <Badge className={`${s.countryBadge} fw-semi-bold`}>{this.context.data.date}</Badge>
-        </span>
 
         {/* <span className={`${s.countryDate} d-inline-block`}>
-        <Badge className={`${s.countryBadge} fw-semi-bold`}>{this.context.data.country} &nbsp; / &nbsp; {this.context.data.date}</Badge>
+        <Badge className={`${s.countryBadge} fw-semi-bold`}>{this.context.data.country}</Badge> 
+        <Badge className={`${s.countryBadge} fw-semi-bold`}>{this.context.data.date}</Badge>
         </span> */}
+
+
        
       </Navbar>
     );

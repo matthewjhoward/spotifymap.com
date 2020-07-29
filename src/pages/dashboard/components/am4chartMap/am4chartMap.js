@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import spotify_data from '../../../../data/charts-data'
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import s from './am4chartMap.module.scss';
 import LayoutContext from '../../../../components/Layout/LayoutContext';
+
+
+import {getFlag} from '../../../../helpers';
 
 class Am4chartMap extends Component {
   static contextType = LayoutContext;
@@ -16,6 +19,7 @@ class Am4chartMap extends Component {
       country: 'Global (inner)',
       
     }
+    this.propTriggered = false;
     am4core.options.queue = true;
     am4core.options.onlyShowOnViewport = true;
     // am4core.options.minPolylineStep = 5;
@@ -24,12 +28,7 @@ class Am4chartMap extends Component {
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  getFlag(id){
-    if (id === 'GLOBAL'){
-      return String.fromCodePoint(127758);
-    }
-    return id.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0)+127397) );
-  }
+  
 
   updateData(){
     var countryData = spotify_data[this.currentID];
@@ -43,8 +42,8 @@ class Am4chartMap extends Component {
     }else{
       dateData = {'country': this.currentCountry, 'track_id': undefined, 'v_track_id': undefined};
     }
-    dateData['countryID'] = this.currentID
-    dateData['country'] = dateData['country'] + ' ' +  this.getFlag(this.currentID);
+    dateData['countryID'] = this.currentID;
+    dateData['country'] = getFlag(this.currentID) + ' ' + dateData['country'];
     this.props.setCountryData(dateData);
   }
 
@@ -59,9 +58,13 @@ class Am4chartMap extends Component {
     this.currentCountry = 'Global';
     this.currentID = 'GLOBAL';
     this.currentDate = this.props.date;
-    this.props.setCountryData(spotify_data[this.currentID][this.currentDate])
+    console.log(this.currentID);
+    console.log(this.currentDate);
 
-    // am4core.useTheme(am4themes_animated);
+    this.updateData();
+    // this.props.setCountryData(spotify_data[this.currentID][this.currentDate])
+
+    am4core.useTheme(am4themes_animated);
     let container = am4core.create("map", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
@@ -74,7 +77,7 @@ class Am4chartMap extends Component {
     for (var i=0; i<validIDs.length; i++){
       var theId = validIDs[i];
       if (theId !== 'GLOBAL'){
-        let data = {"id": theId, flag: this.getFlag(theId)};
+        let data = {"id": theId, flag: getFlag(theId)};
         bubbleData.push(data);
       }
       
@@ -253,7 +256,7 @@ class Am4chartMap extends Component {
       let mapPolygon = ev.target;
       // console.log(mapPolygon);
       handleCountryHit(this, mapPolygon);
-
+      
       this.updateData();
     } );
 
@@ -317,7 +320,7 @@ class Am4chartMap extends Component {
 
       var poly = polygonSeries.getPolygonById(ev.target.dataItem.id)
       handleCountryHit(this, poly);
-
+      
       this.updateData();
     } )
 
@@ -398,7 +401,7 @@ class Am4chartMap extends Component {
     imageSeries.invalidateRawData();
     
     this.map = map;
-    
+    this.polygonSeries = polygonSeries;
 
     
 
@@ -413,8 +416,8 @@ class Am4chartMap extends Component {
       caller.currentCountry = 'Global'
       caller.currentID = 'GLOBAL';
       // shadowPolygonSeries.show(500);
-      // map.goHome();
-      map.goHome(0);
+      map.goHome();
+      // map.goHome(0);
     }
     function clearSelected(){
       polygonSeries.mapPolygons.each(function (polygon) {
@@ -427,9 +430,9 @@ class Am4chartMap extends Component {
     }
     function handleCountryHit(caller, mapPolygon){
 
-        if(caller.currentPolygon === mapPolygon){
+        if(caller.currentPolygon === mapPolygon && !caller.propTriggered){
           caller.currentPolygon.isActive = false;
-
+          
           showWorld(caller, true);
           return;
         }
@@ -441,7 +444,7 @@ class Am4chartMap extends Component {
         mapPolygon.isActive=true;
         
         // shadowPolygonSeries.hide(500);
-        // map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon)
+        map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
         // let z = getZoomLevel(mapPolygon);
         // let p = am4maps.pointToGeo([mapPolygon.latitude, mapPolygon.longitude])
         // let p = new am4core.IGeoPoint()
@@ -472,7 +475,8 @@ class Am4chartMap extends Component {
         var image = imageSeries.getImageById(id);
         if(image){
           if (!image.dataItem.dataContext.name){
-            image.dataItem.dataContext.name = mapPolygon.dataItem.dataContext.name + " " + mapPolygon.dataItem.dataContext.flag;
+            image.dataItem.dataContext.name = mapPolygon.dataItem.dataContext.flag + " " + mapPolygon.dataItem.dataContext.name;
+
           }
 
           image.isHover = true;
@@ -501,35 +505,30 @@ class Am4chartMap extends Component {
       })
     }
 
-    // function hideBubbles() {
-    //   imageSeries.dataItems.each((dataItem) => {
-    //     var mapImage = dataItem.mapImage;
-    //     var circle = mapImage.children.getIndex(0);
-    //     circle.hide(0);
-  
-    //   })
-    // }
-  
-    // function showBubbles() {
-    //   imageSeries.dataItems.each((dataItem) => {
-    //     var mapImage = dataItem.mapImage;
-    //     var circle = mapImage.children.getIndex(0);
-    //     if (circle.isHidden || circle.isHiding) {
-    //       circle.show();
-    //     }
-    //   })
-    // }
-
-    
-    
   }
 
   componentDidUpdate(oldProps){
 
     this.currentDate = this.props.date;
+    this.currentID = this.props.countryID;
 
     if (oldProps.date !== this.props.date){
       this.updateData();
+    }
+    else if (oldProps.countryID !== this.props.countryID){
+
+      if(this.currentID !== 'GLOBAL'){
+        //toggle propTriggered to ensure we don't double hit when context is updated in Dashboard parent due to call to updateData() on hit
+        this.propTriggered=true;
+        let poly = this.polygonSeries.getPolygonById(this.currentID);
+        poly.dispatchImmediately("hit");
+        this.propTriggered = false;
+        
+      }else{
+        this.map.backgroundSeries.dispatchImmediately("hit");
+        
+      }
+
     }
 
   }
