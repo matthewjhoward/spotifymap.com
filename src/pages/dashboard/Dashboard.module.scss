@@ -90,9 +90,32 @@
   padding: 0.5em;
 }
 
-.trackHighlights {
-  // height: 600px;
+
+
+
+
+.queueButton{
+
+  @media screen and (max-width: 400px){
+    font-size: 0.55em;
+    padding: 0.75em;
+  }
 }
+
+.trackHighlights{
+  
+  @media screen and (max-width: 320px){
+      font-size: 0.8em;
+
+      h6 {
+        font-size: 1em;
+      }
+
+     
+    }
+  
+}
+
 
 .highlightFooter{
   align-content: top;
@@ -101,13 +124,27 @@
   padding: 0.2em;
   // height: 30px;
   font-size: $font-size-sm;
+
+  @media screen and (max-width: 320px){
+    font-size: $font-size-index;
+  }
 }
 
 .highlightTopRow{
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $text-transparent;
+
+
+  @media screen and (max-width: 320px){
+    h5{
+      font-size: 1.3em;
+    }
+  
+    h4{
+      font-size: 1.5em;
+    }
+  }
+  
 }
-
-
 
 
 

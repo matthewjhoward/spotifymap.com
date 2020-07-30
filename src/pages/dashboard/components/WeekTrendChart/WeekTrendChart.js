@@ -48,7 +48,10 @@ class WeekTrendChart extends Component {
         dateAxis.renderer.minGridDistance = 1;
         dateAxis.renderer.labels.template.horizontalCenter = "middle";
         dateAxis.renderer.labels.template.verticalCenter = "middle"; 
-
+        if(chart.measuredWidth < 300){
+          dateAxis.renderer.labels.template.fontSize = 10;
+        }
+        
         dateAxis.tooltip.background.fill = am4core.color("#1870DC");
         dateAxis.tooltip.label.fill = am4core.color("white");
         dateAxis.tooltip.background.strokeWidth = 0;
@@ -102,7 +105,9 @@ class WeekTrendChart extends Component {
                 <p class="card-text text-ellipsis py-0">
                 {track}<br />
                 {artist} <br />
-                <span class="text-{textStyle}">{valueY.formatNumber('+#.#a|#.#a|0')} streams</span>
+                <small>
+                <span class="fw-semi-bold">Lead Change</span>:
+                <span class="text-{textStyle}">{valueY.formatNumber('+#.#a|#.#a|0')}</span></small>
                 </p>
                 
                 </div>

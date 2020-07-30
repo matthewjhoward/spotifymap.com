@@ -4,6 +4,12 @@
 .graphChart {
     position: relative;
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal) 0;
+
+    @include media-breakpoint-down(md){
+        margin-left: -2.25em;
+        margin-right: -2.25em;
+    }
+    
 }
 
 .graph {

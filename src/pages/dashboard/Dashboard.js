@@ -174,7 +174,7 @@ class Dashboard extends React.Component {
       
       
 
-      let trackPositionData = track_position[this.state.date][track_id];
+      let trackPositionData = track_position[this.context.data.date][track_id];
       let trackDataValid = trackPositionData && trackPositionData['global_position'];
       let top_position = trackDataValid ? trackPositionData['global_position']['top'] : 201;
       let vir_position = trackDataValid ? trackPositionData['global_position']['viral'] : 201;
@@ -190,7 +190,7 @@ class Dashboard extends React.Component {
       if(!isViral){
         top_days = country_track[this.state.countryID]['top'][track_id]
         for(var day in top_days){
-          if (day > this.state.date){
+          if (day > this.context.data.date){
             break;
           }else{
             daysBefore.push(top_days[day]);
@@ -202,7 +202,7 @@ class Dashboard extends React.Component {
       }else{
         top_days = country_track[this.state.countryID]['viral'][track_id]
         for(day in top_days){
-          if (day > this.state.date){
+          if (day > this.context.data.date){
             break;
           }else{
             daysBefore.push(day);
@@ -219,7 +219,7 @@ class Dashboard extends React.Component {
         <Widget   
                   key = {idx}
                   title={<h4>Track <span className="fw-semi-bold">Highlights</span></h4> }
-                  className={`widget-padding-md text-white`}>
+                  className={` ${s.trackHighlights} widget-padding-md text-white`}>
 
                   <div className={sx.slideWrap}>
 
@@ -262,21 +262,21 @@ class Dashboard extends React.Component {
                       </Col>
                     </Row>
                     
-                      <Container className="text-center pt-2">
+                      <Container className="text-center pt-2 ">
                             <h6 className="fw-bold">Regional Stats <span className="fw-normal">&mdash; {this.state.country}</span></h6> 
                             </Container>
 
                             
 
-                            <Row className='pb-3'>
+                            <Row className='pb-3 mobileText'>
                               {!isViral && <Col className="text-center">
                                 
-                              <h6 className="fw-semi-bold">Peak Streams </h6>
+                              <h6 className="fw-semi-bold ">Peak Streams </h6>
                               {max_streams}
                               
                               </Col>}
                               <Col className="text-center">
-                              <h6 className="fw-semi-bold">Days at #1 </h6>
+                              <h6 className="fw-semi-bold">Days #1 {isViral ? "(Viral 50)" : "(Top 200)"}</h6>
                               {days_leading}
                               </Col>
                             </Row>
@@ -293,7 +293,7 @@ class Dashboard extends React.Component {
                               </Col>
                             </Row>
                     
-                    <CardFooter className={` ${s.highlightFooter} text-muted text-center`}>Data shown for selected date: <span className={`fw-semi-bold`}>{this.state.date}</span></CardFooter>
+                    <CardFooter className={` ${s.highlightFooter} text-muted text-center`}>Data shown for selected date: <span className={`fw-semi-bold`}>{this.context.data.date}</span></CardFooter>
                   </Card>
 
                   </div>
@@ -354,7 +354,7 @@ class Dashboard extends React.Component {
             {streams}
           </CardText>
           <div className="w-100 text-center">
-            <Button className="btn btn-rounded-f" color="primary" onClick={() => this.setState({ playerTrack: link })}>Queue Track &nbsp;<i className="fa fa-external-link-square" /></Button>
+            <Button className={`${s.queueButton} btn btn-rounded-f`} color="primary" onClick={() => this.setState({ playerTrack: link })}>Queue Track &nbsp;<i className="fa fa-external-link-square" /></Button>
           </div>
         </CardBody>
       </Card>;
@@ -399,7 +399,7 @@ class Dashboard extends React.Component {
 
           
 
-            <h1 className='d-inline-block'>
+            <h1 className='d-block d-md-inline-block'>
               <span className={`${s.country} fw-bold`}>{this.context.data.country}&nbsp;</span>
             </h1>
 
@@ -479,7 +479,7 @@ class Dashboard extends React.Component {
               
               </h5>  }
               collapse
-              close
+              
                
             >
 
@@ -489,6 +489,7 @@ class Dashboard extends React.Component {
             
             <PopoverHeader className="fw-semi-bold">Leader Stream Totals</PopoverHeader>
           <PopoverBody>Displays the number of streams gained by the most streamed track in the selected region (default: Global). 
+          <br />
           <br />
             Spikes may indicate popular new songs.
           </PopoverBody>
@@ -515,6 +516,7 @@ class Dashboard extends React.Component {
             
             <PopoverHeader className="fw-semi-bold">7-Day Lead Trend</PopoverHeader>
           <PopoverBody>Displays the 7-day streaming lead of the #1 streamed track over the #2 track (line) and the daily changes (columns) in that lead.
+            <br />
             <br />
             Lines approaching 0 may indicate a track is losing steam on the charts.
           </PopoverBody>

@@ -3,8 +3,10 @@
 .root {
   height: 100%;
   position: relative;
+
   left: 0;
   transition: left $sidebar-transition-time ease-in-out;
+  
 }
 
 .wrap {

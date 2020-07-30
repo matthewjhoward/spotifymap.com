@@ -407,6 +407,38 @@ class Am4chartMap extends Component {
     return longitude;
   })
 
+ 
+  
+
+  
+  function updateImageVisibility(ev, caller) {
+    circle.clones.each(function(clone) {
+
+      clone.radius = 1 + (map.pixelWidth/100/3) + (0.25*map.zoomLevel);
+
+    });
+    // imageSeries.invalidateRawData();
+
+    imageSeries.mapImages.each(function(image) {
+      
+
+        if (map.zoomLevel >= 100) {
+          image.hide();
+        }
+        else {
+          image.show();
+        }
+
+    });
+  }
+
+  imageSeries.events.on("datavalidated", (ev) => {
+    updateImageVisibility(ev, this);
+  }); 
+  map.events.on("zoomlevelchanged", (ev) => {
+    updateImageVisibility(ev, this);
+  }); 
+
 
 
     
