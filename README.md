@@ -1,7 +1,7 @@
 
 
 <p align="center"><img src="https://github.com/matthewjhoward/spotifymap.com/blob/master/src/images/logo.png" width="200" height="200" /></p>
-<p align="center"><large>Spotify <strong>Map</strong></large></p>
+<p align="center"><img src="https://github.com/matthewjhoward/spotifymap.com/blob/master/src/images/logo-black.png" width="500"/></large></p>
 
 
 ## About
