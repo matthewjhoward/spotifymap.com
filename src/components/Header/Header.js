@@ -20,6 +20,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {getFlag} from '../../helpers';
 
+import logo from '../../images/logo.png';
 
 import { openSidebar, closeSidebar, changeSidebarPosition, changeSidebarVisibility } from '../../actions/navigation';
 
@@ -165,7 +166,11 @@ class Header extends React.Component {
     return (
       // ${this.state.headerClass}
       <Navbar className={`${s.root} ${this.state.headerClass}`} sticky="top">
-        <NavbarBrand className={`${s.logo} mr-0`} href="/">Spotify <span className="fw-bold">Map</span> 
+        <NavbarBrand className={`${s.logo} mr-0`} href="/">
+          <span>
+          <img className={s.headerImage} src={logo} alt="..." />
+          Spotify <span className="fw-bold">Map</span> 
+            </span>
 
         
         </NavbarBrand>

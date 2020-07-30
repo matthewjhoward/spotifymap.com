@@ -55,29 +55,37 @@
   }
 }
 
+.headerImage{
+  height: 2em;
+  padding-right: 0.5em;
+}
 .logo {
   position: absolute;
 
   @media (min-height: 940px) {
     // position: fixed;
   }
-
+  
   left: 56px;
-  top: 18px;
+  // top: 15px;
+  padding-top: 10px;
   z-index: 1;
   font-size: 20px;
   font-weight: normal;
   color: $white;
+  
 
   &:hover,
   &:focus {
     color: $white;
   }
 
+  
+
 
 
   @media (max-width: breakpoint-max(sm)) {
-    top: 15px;
+    padding-top: 10px;
     left: 15px;
 
     strong {
