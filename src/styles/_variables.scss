@@ -165,6 +165,7 @@ $widget-shadow: 0 25px 20px -20px rgba(0,0,0,0.1), 0 0 15px rgba(0,0,0,0.06);
 $widget-shadow-designated: -1px 0 8px $gray-400;
 
 $text-transparent: opacify($widget-bg-color, .07);
+$text-transparent-md: opacify($widget-bg-color, .5);
 $bg-addition: darken($widget-bg-color, .07);
 
 $input-btn-line-height: 1.5;

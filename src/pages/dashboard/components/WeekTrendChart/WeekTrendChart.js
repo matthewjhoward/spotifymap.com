@@ -84,6 +84,7 @@ class WeekTrendChart extends Component {
         series.strokeWidth = 1;
         // series.tooltipText = "{valueY.formatNumber('#.##a')}";
         series.tooltip.background.fill = am4core.color("black");
+        series.tooltip.background.fillOpacity = 0;
         series.fill = am4core.color("#000");
         series.tooltip.getFillFromObject = false;
         series.tooltip.background.strokeWidth = 0;
@@ -189,6 +190,7 @@ class WeekTrendChart extends Component {
 
 
         totalSeries.tooltip.background.fill = am4core.color("black");
+        totalSeries.tooltip.background.fillOpacity = 0;
         totalSeries.fill = am4core.color("#000");
         totalSeries.tooltip.getFillFromObject = false;
         totalSeries.tooltip.background.strokeWidth = 0;
@@ -295,7 +297,20 @@ class WeekTrendChart extends Component {
     componentDidUpdate(oldProps){
       
         // this.chart.data = this.loadChartData(this.props.countryID);
-        if(oldProps.countryID !== this.props.countryID || oldProps.date !== this.props.date){
+
+        //set timeout on country change. Date change is no issue
+        if(oldProps.countryID !== this.props.countryID){
+
+          setTimeout(() => {
+            let newData = this.loadChartData(this.props.countryID);
+            this.chart.data = newData;
+  
+          }, 500);
+
+         
+        }
+        else if(oldProps.date !== this.props.date){
+          
           let newData = this.loadChartData(this.props.countryID);
           this.chart.data = newData;
 

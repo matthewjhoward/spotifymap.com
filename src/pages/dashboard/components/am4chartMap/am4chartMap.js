@@ -20,6 +20,7 @@ class Am4chartMap extends Component {
       
     }
     this.propTriggered = false;
+    this.timeoutDuration = 500;
     am4core.options.queue = true;
     am4core.options.onlyShowOnViewport = true;
     // am4core.options.minPolylineStep = 5;
@@ -217,8 +218,17 @@ class Am4chartMap extends Component {
     ignorePolygonSeries.mapPolygons.template.stroke = am4core.color("#6979C9");
     ignorePolygonSeries.mapPolygons.template.strokeWidth = 0.35;
     ignorePolygonSeries.tooltip.background.strokeWidth = 0;
-    ignorePolygonSeries.mapPolygons.template.tooltipHTML = `<strong>{name}</strong><br> <small>No Data &#128546;</small>`
+    ignorePolygonSeries.tooltip.background.fill = am4core.color("black");
+    ignorePolygonSeries.tooltip.background.fillOpacity = 1;
+   
     ignorePolygonSeries.exclude = ['AQ'].concat(validIDs);
+    ignorePolygonSeries.tooltip.getFillFromObject = false;
+    ignorePolygonSeries.tooltip.fill = am4core.color("black");
+    ignorePolygonSeries.mapPolygons.template.tooltipHTML = `<strong>{name}</strong><br> <small>No Data &#128546;</small>`
+
+
+    
+    
 
     
     
@@ -299,7 +309,7 @@ class Am4chartMap extends Component {
 
 
     imageSeries.tooltip.showInViewport = false;
-    imageSeries.tooltip.animationDuration = 0;//Makes tooltip stay with country
+    // imageSeries.tooltip.animationDuration = 0;//Makes tooltip stay with country
     // imageSeries.tooltip.transitionDuration = 0;
     imageSeries.tooltipPosition="fixed";
     imageSeries.tooltip.getFillFromObject = false;
@@ -400,6 +410,8 @@ class Am4chartMap extends Component {
     
     imageSeries.invalidateRawData();
     
+
+    
     this.map = map;
     this.polygonSeries = polygonSeries;
 
@@ -416,7 +428,7 @@ class Am4chartMap extends Component {
       caller.currentCountry = 'Global'
       caller.currentID = 'GLOBAL';
       // shadowPolygonSeries.show(500);
-      map.goHome();
+      map.goHome(caller.timeoutDuration);
       // map.goHome(0);
     }
     function clearSelected(){
@@ -444,7 +456,7 @@ class Am4chartMap extends Component {
         mapPolygon.isActive=true;
         
         // shadowPolygonSeries.hide(500);
-        map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
+        map.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon),true, caller.timeoutDuration);
         // let z = getZoomLevel(mapPolygon);
         // let p = am4maps.pointToGeo([mapPolygon.latitude, mapPolygon.longitude])
         // let p = new am4core.IGeoPoint()

@@ -201,6 +201,10 @@
 
 :global {
   .tooltipCard {
+    background-color: $text-transparent-md;
+    // background-color: $blue;
+    
+    z-index: 10;
     width: 200px;
     max-width: 200px;
     padding: 0;
@@ -214,6 +218,8 @@
       // border-top-right-radius: 5px;
       border-radius: 5px;
     }
+
+
   }
 
 

@@ -20,7 +20,8 @@ class StreamChart extends Component {
       // am4core.options.queue = true;
       // am4core.options.onlyShowOnViewport = true;
       
-      
+      const {detect} = require('detect-browser');
+      this.browser = detect().name;
       this.componentDidMount = this.componentDidMount.bind(this);
     }
 /* Chart code */
@@ -35,7 +36,7 @@ class StreamChart extends Component {
 
         // Create chart instance
         let chart = am4core.create("graph", am4charts.XYChart);
-
+        
         // Add data
         chart.data = this.loadChartData(this.props.countryID);
         chart.numberFormatter.numberFormat = "#.0a";
@@ -126,6 +127,7 @@ class StreamChart extends Component {
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.tooltip.disabled=true;
+        
 
         
         
@@ -162,8 +164,12 @@ class StreamChart extends Component {
         // </div>
         // `
         series.tooltip.label.padding(0,12,0,0);
+        let tooltipClass = "tooltipCard ";
+        if (this.browser === 'safari'){
+          tooltipClass += "position-fixed";
+        }
         series.tooltipHTML = `
-        <div class="card tooltipCard p-0">
+        <div class="card ` + tooltipClass + ` p-0">
         <div class="row no-gutters p-0">
             <div class="col-auto pl-0 pr-2">
               <img src="{img}" height="56px" /> 
@@ -185,11 +191,56 @@ class StreamChart extends Component {
         
         series.tooltip.pointerOrientation = "vertical";
         series.tooltip.background.strokeWidth = 0;
+        series.tooltip.background.fillOpacity = 0;
+        
+
+
+        
         series.fill = am4core.color("#000");
         series.fillOpacity = 1;
 
 
+        // let info = chart.plotContainer.createChild(am4core.Container);
+        // info.width = 250;
+        // info.height = 64;
+        // info.x = 10;
+        // info.y = 10;
+        // info.background.fill = am4core.color("#000");
+        // info.layout = "grid";
 
+        // let imageLabel = info.createChild(am4core.Label);
+
+
+    // function updateImageLabel(dataItem){
+    //   imageLabel.dataItem = dataItem;
+    //   // imageLabel.dataItem.img = dataItem.dataContext.img;
+    //   // imageLabel.dataItem.track = dataItem.dataContext.track;
+    //   // imageLabel.dataItem.artist = dataItem.dataContext.artist;
+    //   // imageLabel.dataItem.valueY = dataItem.dataContext.valueY;
+
+    //   imageLabel.html = `
+    //     <div class="card tooltipCard p-0">
+    //     <div class="row no-gutters p-0">
+    //         <div class="col-auto pl-0 pr-2">
+    //           <img src="{img}" height="56px" /> 
+    //         </div>
+    //         <div class="col text-ellipsis text-muted">
+    //             <div class="card-block px-2">
+    //             <p class="card-text text-ellipsis py-0">
+    //             {track}<br />
+    //             {artist} <br />
+    //             <span class="text-success">{valueY.formatNumber('#.##a')} streams</span>
+    //             </p>
+                
+    //             </div>
+    //         </div>
+    //     </div>
+
+    // </div>
+    // `
+    // }
+
+   
 
 
         // series.propertyFields.stroke = "color";
@@ -255,6 +306,29 @@ class StreamChart extends Component {
           let dataItem = series.tooltipDataItem;
           console.log("Clicked on series item, date:" + dataItem.dateX);
         })
+
+        // chart.events.on("ready", function(ev) {
+        //   updateImageLabel(series.dataItems.last);
+        // });
+    
+        // chart.cursor.events.on("cursorpositionchanged", function(ev) {
+        //   let dataItem = dateAxis.getSeriesDataItem(
+        //     series,
+        //     dateAxis.toAxisPosition(chart.cursor.xPosition),
+        //     true
+        //   );
+        //   updateImageLabel(dataItem);
+        // });
+
+        // chart.cursor.events.on("hidden", function(ev) {
+        //   updateImageLabel(series.dataItems.last);
+        // });
+
+        // chart.events.on("datavalidated", function(ev) {
+        //   chart.series.each(function(theSeries) {
+        //     theSeries.appear();
+        //   });
+        // });
 
         this.valueAxis = valueAxis;
         this.dateAxis = dateAxis;
@@ -328,10 +402,17 @@ class StreamChart extends Component {
     }
 
     componentDidUpdate(oldProps){
+      
       if(oldProps.countryID !== this.props.countryID){//Update chart only on country change, not date
-        this.dateAxis.axisRanges.template.axisFill.fillOpacity=0.0;
-        this.chart.data = this.loadChartData(this.props.countryID);
+        let newData = this.loadChartData(this.props.countryID);
+        setTimeout(() => {
+          this.dateAxis.axisRanges.template.axisFill.fillOpacity=0.0;
+        this.chart.data = newData
+        this.chart.invalidateRawData();
         this.drawAverage();
+
+        }, 500);
+        
       }
       
     }

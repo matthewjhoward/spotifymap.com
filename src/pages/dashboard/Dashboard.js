@@ -64,6 +64,11 @@ class Dashboard extends React.Component {
     };
 
     
+    
+
+    this.lastData = {}
+
+    
 
     
 
@@ -90,13 +95,29 @@ class Dashboard extends React.Component {
 
   setCountryData(countryData) {
 
-    this.setState(countryData);
-    // console.log(countryData);
     this.context.setData({ 
       countryID: countryData.countryID, 
       country: countryData.country,
       date: this.context.data.date
     });
+
+    // this.context.setData(countryData);
+
+    this.setState(countryData)
+    //  setTimeout(()=>{
+    //   this.setState(countryData)},
+    //   0);
+
+    //   // setTimeout(()=>{
+    //   //   this.setState(countryData)},
+    //   //   1000);
+    
+
+    
+    
+
+
+
   }
 
   numberWithCommas(x) {
@@ -150,6 +171,8 @@ class Dashboard extends React.Component {
 
 
      const getWidget = (track_id, idx, isViral) => {
+      
+      
 
       let trackPositionData = track_position[this.state.date][track_id];
       let trackDataValid = trackPositionData && trackPositionData['global_position'];
@@ -455,7 +478,7 @@ class Dashboard extends React.Component {
               > <i className="fa fa-info-circle"></i></Badge>
               
               </h5>  }
-              close collapse
+               collapse
             >
 
 
@@ -470,7 +493,7 @@ class Dashboard extends React.Component {
             
           
         </Popover>
-              <StreamChart countryID={this.context.data.countryID} />
+              <StreamChart countryID={this.state.countryID} />
             </Widget>
           </Col>
           <Col xl={4} lg={5} xs={12}>
@@ -483,7 +506,7 @@ class Dashboard extends React.Component {
               > <i className="fa fa-info-circle"></i></Badge>
               
               </h5>}
-              close collapse
+               collapse
             >
 
 <Popover placement="bottom" isOpen={this.state.popovers[1]} target="p-2" toggle={() => this.toggle(1, 'popovers')} className={`${s.pop} pb-0 mb-0`}>

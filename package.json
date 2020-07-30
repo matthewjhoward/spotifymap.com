@@ -70,6 +70,7 @@
     "connected-react-router": "^6.8.0",
     "country-list": "^2.2.0",
     "cross-env": "^7.0.2",
+    "detect-browser": "^5.1.1",
     "font-awesome": "4.7.0",
     "glyphicons-halflings": "^1.9.1",
     "history": "^4.10.1",
