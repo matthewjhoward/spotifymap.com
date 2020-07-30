@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { ConnectedRouter } from 'connected-react-router';
 import { getHistory } from '../index';
@@ -29,7 +29,7 @@ class App extends React.PureComponent {
                 closeButton={<CloseButton/>}
             />
             <ConnectedRouter history={getHistory()}>
-                <BrowserRouter>
+                <HashRouter>
                     <Switch>
                       <Route path="/" exact render={() => <Redirect to="/dashboard"/>}/>
 
@@ -39,7 +39,7 @@ class App extends React.PureComponent {
                         <Route path="/error" exact component={ErrorPage}/>
                         <Redirect from="*" to="/dashboard"/>
                     </Switch>
-                </BrowserRouter>
+                </HashRouter>
             </ConnectedRouter>
 
             
