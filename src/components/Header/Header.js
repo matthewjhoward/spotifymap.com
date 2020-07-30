@@ -44,6 +44,8 @@ class Header extends React.Component {
     
 
     this.countries = Object.keys(spotify_data);
+    this.countries.splice(this.countries.indexOf("GLOBAL"), 1)
+    this.countries = ["GLOBAL"].concat(this.countries)
 
 
     let dates = Object.keys(spotify_data['GLOBAL'])
@@ -172,7 +174,7 @@ class Header extends React.Component {
     
               <ButtonDropdown isOpen={this.state.countryOpen} toggle={this.toggleCountryDropdown}>
 
-      <DropdownToggle caret size="sm" color="dark">
+      <DropdownToggle caret size="sm" color="dark" className={`${s.dropDownToggle} btn`}>
         {this.context.data.country}
       </DropdownToggle>
       <DropdownMenu size="sm" className={s.dropDownMenu}>
@@ -200,7 +202,7 @@ class Header extends React.Component {
 
             selected={this.dayPlusOne(new Date(this.context.data.date))}
             onChange={this.dateChange}
-            customInput={<Button size="sm" className='btn text-white' color='dark' id="calPop">
+            customInput={<Button size="sm" className={` ${s.dropDownToggle} btn text-white`}color='dark' id="calPop">
               <i className="fa fa-calendar" />&nbsp; {this.context.data.date}
             </Button>}
           />

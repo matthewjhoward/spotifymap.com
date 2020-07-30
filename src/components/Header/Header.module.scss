@@ -405,8 +405,33 @@
 
 
 .dropdownButtons {
-  padding-right: 3em;
+  padding-right: 2em;
+  @media screen  and (max-width: 768px){
+    padding-right: 0;
+    
+  }
 }
+
+.dropDownToggle{
+  font-weight: 600;
+  background-color: $text-transparent !important;
+  border: 1px solid $text-transparent;
+  margin-right: 1em;
+
+  &:hover, .btn:hover {
+    background-color: $text-transparent !important;
+    border: 1px solid $blue !important;
+  }
+
+  &:focus, .btn:focus, &:active, .btn:active, &:visited, .btn:visited, &:focus-within, &::selection {
+    background-color: $text-transparent !important;
+  }
+
+  
+  
+}
+
+
 
 
 
