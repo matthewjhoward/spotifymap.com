@@ -144,6 +144,8 @@ class Am4chartMap extends Component {
       this.updateData();
     });
 
+    map.tapToActivate = true;
+
     // map.backgroundSeries.events.on("drag", (ev) => {
     //   polygonSeries.mapPolygons.each(function (polygon) {
     //     var id = polygon.dataItem.id;

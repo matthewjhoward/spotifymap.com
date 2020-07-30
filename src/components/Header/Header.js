@@ -21,7 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {getFlag} from '../../helpers';
 
 import logo from '../../images/logo.png';
-
+import cal from '../../images/calendar.png';
 import { openSidebar, closeSidebar, changeSidebarPosition, changeSidebarVisibility } from '../../actions/navigation';
 
 
@@ -194,7 +194,10 @@ class Header extends React.Component {
 
 
       <DatePicker
-            popperPlacement="auto-left"
+            className={s.datePicker}
+            // popperPlacement="left-start"
+            popperPlacement="bottom-end"
+            // popperPlacement="left"
             // todayButton="Latest"
             
             showMonthDropdown
@@ -208,7 +211,8 @@ class Header extends React.Component {
             selected={this.dayPlusOne(new Date(this.context.data.date))}
             onChange={this.dateChange}
             customInput={<Button size="sm" className={` ${s.dropDownToggle} btn text-white`}color='dark' id="calPop">
-              <i className="fa fa-calendar" />&nbsp; {this.context.data.date}
+              {/* <i className="fa fa-calendar" />&nbsp; {this.context.data.date} */}
+              <img src={cal} alt="calendar"/> {this.context.data.date}
             </Button>}
           />
 

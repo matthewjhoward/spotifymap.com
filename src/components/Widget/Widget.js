@@ -253,6 +253,7 @@ class Widget extends React.Component {
                 )
               }
               {!fullscreened && (
+                // (close && !prompt) ? (
                 (close && !prompt) ? (
                 <button onClick={this.handleClose} id={`closeId-${randomId}`}>
                   {typeof close === 'string' ?
@@ -266,17 +267,19 @@ class Widget extends React.Component {
                   )}
                 </button>
               ) : (
-                <button onClick={this.toggleModal} id={`closeId-${randomId}`}>
-                {typeof close === 'string' ?
-                  <strong className="text-gray-light">{close}</strong> :
-                  <i className="la la-remove" />}
-                {showTooltip && (
-                  <UncontrolledTooltip
-                    placement={tooltipPlacement}
-                    target={`closeId-${randomId}`}
-                  >Modal</UncontrolledTooltip>
-                )}
-              </button>
+                <span></span>
+                //Empty span to use collapse without close
+              //   <button onClick={this.toggleModal} id={`closeId-${randomId}`}>
+              //   {typeof close === 'string' ?
+              //     <strong className="text-gray-light">{close}</strong> :
+              //     <i className="la la-angle-up" />}
+              //   {showTooltip && (
+              //     <UncontrolledTooltip
+              //       placement={tooltipPlacement}
+              //       target={`closeId-${randomId}`}
+              //     >Modal</UncontrolledTooltip>
+              //   )}
+              // </button>
               ))}
             </div>
           )}

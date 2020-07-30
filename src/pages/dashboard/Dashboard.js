@@ -478,7 +478,9 @@ class Dashboard extends React.Component {
               > <i className="fa fa-info-circle"></i></Badge>
               
               </h5>  }
-               collapse
+              collapse
+              close
+               
             >
 
 
