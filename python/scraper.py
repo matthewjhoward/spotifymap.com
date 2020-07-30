@@ -19,7 +19,7 @@ class Scraper:
     def __init__(self, verbose=False):
         self.config = self.config_scraper()
 
-        self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+        self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=self.config['SPOTIPY']['SPOTIPY_CLIENT_ID'], client_secret=self.config['SPOTIPY']['SPOTIPY_CLIENT_SECRET']))
         self.countries = []
         self.track_data = {}
         self.broken_links = []
@@ -52,6 +52,16 @@ class Scraper:
         for c in config:
             if 'DIR' in c:
                 os.makedirs(config[c], exist_ok=True)
+            
+            if c == 'SPOTIPY_CREDENTIALS_PATH':
+                creds = {}
+                with open(config[c], 'r') as stream:
+                    try:
+                        creds = yaml.safe_load(stream)
+                    except yaml.YAMLError as exc:
+                        print(exc)
+        if creds:
+            config['SPOTIPY']=creds
 
         return config
 

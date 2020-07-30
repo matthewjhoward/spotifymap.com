@@ -34,3 +34,4 @@ __pycache__/
 /src/data
 
 .vscode
+python/spotipy-credentials.yaml

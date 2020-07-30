@@ -11,6 +11,7 @@ TRACK_POSITION_INFO_PATH: data/exports/track-position.js
 COUNTRY_TRACK_INFO_PATH: data/exports/country-track.js
 DATA_START_DATE: 01-01-2019
 COPY_EXPORT_PATH: ../src/data/
+SPOTIPY_CREDENTIALS_PATH: spotipy-credentials.yaml
 CHARTS:
   - regional
   - viral
