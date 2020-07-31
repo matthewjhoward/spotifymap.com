@@ -469,7 +469,7 @@ class Scraper:
  
     def copyForBuild(self):
         #Copy generated necessary files into the website for build
-        shutil.copytree(self.config['EXPORTS_PATH'], self.config['COPY_EXPORT_PATH'])
+        shutil.copytree(self.config['EXPORTS_DIR'], self.config['COPY_EXPORT_PATH'])
 
 
 def main():

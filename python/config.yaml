@@ -2,7 +2,7 @@ CHARTS_URL: https://spotifycharts.com
 TRACK_EMBED_URL: https://open.spotify.com/embed/track/
 DATA_DIR: data
 DF_DIR: data/dataframes
-EXPORTS_PATH: data/exports
+EXPORTS_DIR: data/exports
 BROKEN_LINKS_PATH: data/broken_links.json
 COUNTRY_PATH: data/countries.json
 TRACKS_PATH: data/exports/tracks.json
