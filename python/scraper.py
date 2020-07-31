@@ -496,7 +496,7 @@ def main():
         print('Nothing to update.')
     
     print('...complete!')
-    os.path('../../')
+    
 
 if __name__ == "__main__":
     main()
