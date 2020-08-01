@@ -58,7 +58,7 @@ class Scraper:
             
             if c == 'SPOTIPY_CREDENTIALS_PATH':
                 creds = {}
-                with open(config[c], 'r') as stream:
+                with open(os.path.join(self.dirname, config[c]), 'r') as stream:
                     try:
                         creds = yaml.safe_load(stream)
                     except yaml.YAMLError as exc:
@@ -95,12 +95,12 @@ class Scraper:
 
     def readJSON(self, path):
         data = None
-        with open(path, 'r') as fin:
+        with open(os.path.join(self.dirname, path), 'r') as fin:
             data = json.load(fin)
         return data
 
     def writeJSON(self, data, path):
-        with open(path, 'w') as fout:
+        with open(os.path.join(self.dirname, path), 'w') as fout:
             json.dump(data, fout)
 
     def getCountries(self):
@@ -177,14 +177,14 @@ class Scraper:
         return df
 
     def computeTops(self, save=False, doLoad=False):        
-        reg_df, vir_df = pd.read_pickle(os.path.join(self.config['DF_DIR'], 'regional.pkl')), pd.read_pickle(os.
-        path.join(self.config['DF_DIR'], 'viral.pkl'))
+        reg_df, vir_df = pd.read_pickle(os.path.join(self.dirname, self.config['DF_DIR'], 'regional.pkl')), pd.read_pickle(os.
+        path.join(self.dirname, self.config['DF_DIR'], 'viral.pkl'))
 
         reg_df = reg_df.drop(columns=['Artist', 'Track Name'])
         vir_df = vir_df.drop(columns=['Artist', 'Track Name'])
         
         tops = None
-        tops_path = os.path.join(self.config['DF_DIR'], 'tops.pkl')
+        tops_path = os.path.join(self.dirname, self.config['DF_DIR'], 'tops.pkl')
         top_df = None
 
         if os.path.exists(tops_path) and doLoad:
@@ -279,15 +279,15 @@ class Scraper:
         outData = dict(outData)
 
         js_output = 'export default '+json.dumps(outData)
-        with open(self.config['CHART_DATA_OUTPUT_PATH'], 'w') as fout:
+        with open(os.path.join(self.dirname, self.config['CHART_DATA_OUTPUT_PATH']), 'w') as fout:
             fout.write(js_output)
         
         return outData
 
     def exportHighlights(self):
-        tops = pd.read_pickle(os.path.join(self.config['DF_DIR'], 'tops.pkl'))
-        reg = pd.read_pickle(os.path.join(self.config['DF_DIR'], 'regional.pkl'))
-        vir = pd.read_pickle(os.path.join(self.config['DF_DIR'], 'viral.pkl'))
+        tops = pd.read_pickle(os.path.join(self.dirname, self.config['DF_DIR'], 'tops.pkl'))
+        reg = pd.read_pickle(os.path.join(self.dirname, self.config['DF_DIR'], 'regional.pkl'))
+        vir = pd.read_pickle(os.path.join(self.dirname, self.config['DF_DIR'], 'viral.pkl'))
 
         def countryTrackInfo():
 
@@ -379,12 +379,12 @@ class Scraper:
 
         countryTrackData = countryTrackInfo()
         js_output = 'export default '+json.dumps(countryTrackData)
-        with open(self.config['COUNTRY_TRACK_INFO_PATH'], 'w') as fout:
+        with open(os.path.join(self.dirname, self.config['COUNTRY_TRACK_INFO_PATH']), 'w') as fout:
             fout.write(js_output)
 
         trackPositionData = trackPositionInfo()
         js_output = 'export default '+json.dumps(trackPositionData)
-        with open(self.config['TRACK_POSITION_INFO_PATH'], 'w') as fout:
+        with open(os.path.join(self.dirname, self.config['TRACK_POSITION_INFO_PATH']), 'w') as fout:
             fout.write(js_output)
 
 
@@ -403,7 +403,7 @@ class Scraper:
         thresh = 100
         for chart in self.config['CHARTS']:
             #Load chart data frame
-            pkl_path = os.path.join(self.config['DF_DIR'], f'{chart}.pkl')
+            pkl_path = os.path.join(self.dirname, self.config['DF_DIR'], f'{chart}.pkl')
             df = None
             existing = []
             if os.path.exists(pkl_path):
