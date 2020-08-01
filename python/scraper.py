@@ -17,13 +17,16 @@ class Scraper:
     
     
     def __init__(self, verbose=False):
+        self.verbose = verbose
+        
+        self.dirname = os.path.dirname(os.path.abspath(__file__))
         self.config = self.config_scraper()
 
         self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=self.config['SPOTIPY']['SPOTIPY_CLIENT_ID'], client_secret=self.config['SPOTIPY']['SPOTIPY_CLIENT_SECRET']))
         self.countries = []
         self.track_data = {}
         self.broken_links = []
-        self.verbose = verbose
+        
 
         cpath = self.config['COUNTRY_PATH']
         if os.path.exists(cpath):
@@ -43,7 +46,7 @@ class Scraper:
     def config_scraper(self):
         pd.set_option('mode.chained_assignment', None)
         config = {}
-        with open("config.yaml", 'r') as stream:
+        with open(os.path.join(self.dirname, "config.yaml"), 'r') as stream:
             try:
                 config = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
