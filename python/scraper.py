@@ -493,7 +493,7 @@ def main():
         scraper.exportHighlights()
         
         print('Copying data for build')
-        scraper.copyForBuild()
+        # scraper.copyForBuild()
         
     else:
         print('Nothing to update.')
